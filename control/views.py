@@ -2,6 +2,8 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+
 from control.models import *
 
 
@@ -16,7 +18,7 @@ def CustomerRegistration(request):
 def DeviceRegistration(request):
     return HttpResponse('Under construction')
 
-
+@csrf_exempt
 def SetupDevice(request):
     if request.method == 'POST':
         contactNo = request.POST.get('contactNo', '')
@@ -26,7 +28,7 @@ def SetupDevice(request):
             return HttpResponse('Active')
         return HttpResponse('Inactive')
 
-
+@csrf_exempt
 def DeviceCom(request, contactNo, msg):
     devices = Device.objects.filter(deviceContactNo=contactNo)
     device = devices[0]
